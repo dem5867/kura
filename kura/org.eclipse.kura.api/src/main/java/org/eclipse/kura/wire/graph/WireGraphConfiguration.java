@@ -30,10 +30,10 @@ import org.eclipse.kura.wire.WireConfiguration;
 public class WireGraphConfiguration {
 
     private final List<WireComponentConfiguration> wireComponentConfigurations;
-    private final List<WireConfiguration> wireConfigurations;
+    private final List<MultiportWireConfiguration> wireConfigurations;
 
     public WireGraphConfiguration(List<WireComponentConfiguration> wireComponentConfigurations,
-            List<WireConfiguration> wireConfigurations) {
+            List<MultiportWireConfiguration> wireConfigurations) {
         this.wireComponentConfigurations = wireComponentConfigurations;
         this.wireConfigurations = wireConfigurations;
     }
@@ -42,7 +42,7 @@ public class WireGraphConfiguration {
         return this.wireComponentConfigurations;
     }
 
-    public List<WireConfiguration> getWireConfigurations() {
+    public List<MultiportWireConfiguration> getWireConfigurations() {
         return this.wireConfigurations;
     }
 

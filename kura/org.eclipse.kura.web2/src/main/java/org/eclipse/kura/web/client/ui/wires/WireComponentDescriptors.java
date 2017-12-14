@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.kura.web.client.ui.wires.composer.PortNames;
 import org.eclipse.kura.web.client.ui.wires.composer.WireComponent;
+import org.eclipse.kura.web.client.ui.wires.composer.WireComponentRenderingProperties;
 import org.eclipse.kura.web.shared.model.GwtWireComponentDescriptor;
 
 public class WireComponentDescriptors {
@@ -14,7 +16,6 @@ public class WireComponentDescriptors {
     public void setDescriptors(List<GwtWireComponentDescriptor> descriptors) {
         this.descriptors.clear();
         for (GwtWireComponentDescriptor desc : descriptors) {
-            log(desc);
             this.descriptors.put(desc.getFactoryPid(), desc);
         }
     }
@@ -27,15 +28,7 @@ public class WireComponentDescriptors {
         return descriptors;
     }
 
-    private native void log(Object o)
-    /*-{
-        console.log(o)
-    }-*/;
-
     public WireComponent createNewComponent(String pid, String factoryPid) {
-        log(pid);
-        log(factoryPid);
-        log(descriptors);
         final GwtWireComponentDescriptor descriptor = descriptors.get(factoryPid);
         if (descriptor == null) {
             return null;
@@ -47,6 +40,11 @@ public class WireComponentDescriptors {
         result.setFactoryPid(factoryPid);
         result.setInputPortCount(descriptor.getMinInputPorts());
         result.setOutputPortCount(descriptor.getMinOutputPorts());
+
+        final WireComponentRenderingProperties renderingProperties = WireComponentRenderingProperties.create();
+        renderingProperties.setInputPortNames(PortNames.fromMap(descriptor.getInputPortNames()));
+        renderingProperties.setOutputPortNames(PortNames.fromMap(descriptor.getOutputPortNames()));
+        result.setRenderingProperties(renderingProperties);
 
         return result;
     }
